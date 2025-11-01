@@ -12,11 +12,11 @@ import br.com.leao.gabriel.fitaura.api.shared.utils.EnumConverter;
 public class UserMapper {
     public static User toDomain(UpsertUserRequest dto) {
         User user = new User();
-        user.setName(dto.getName());
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-        user.setBirthday(DateFormatterUtil.transformStringToLocalDate(dto.getBirthday()));
-        user.setRole(EnumConverter.toEnumOrDefault(dto.getRole(), Role.class, Role.USER));
+        user.setName(dto.name());
+        user.setEmail(dto.email());
+        user.setPassword(dto.password());
+        user.setBirthday(DateFormatterUtil.transformStringToLocalDate(dto.birthday()));
+        user.setRole(EnumConverter.toEnumOrDefault(dto.role(), Role.class, Role.USER));
         return user;
     }
 
