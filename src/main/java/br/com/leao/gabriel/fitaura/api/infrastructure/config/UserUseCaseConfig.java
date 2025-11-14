@@ -10,6 +10,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class UserUseCaseConfig {
     @Bean
+    public CreateUserCase createUserCase(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            ResolveAddressCase resolveAddressCase) {
+        return new CreateUserService(userRepository, passwordEncoder, resolveAddressCase);
+    }
+
+    @Bean
+    public UpdateUserCase updateUserCase(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            ResolveAddressCase resolveAddressCase) {
+        return new UpdateUserService(userRepository, passwordEncoder, resolveAddressCase);
+    }
+
+    @Bean
     public GetUsersCase getUsersCase(UserRepository userRepository) {
         return new GetUsersService(userRepository);
     }
@@ -23,15 +39,4 @@ public class UserUseCaseConfig {
     public DeleteUserCase deleteUserCase(UserRepository userRepository) {
         return new DeleteUserService(userRepository);
     }
-
-    @Bean
-    public CreateUserCase createUserCase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        return new CreateUserService(userRepository, passwordEncoder);
-    }
-
-    @Bean
-    public UpdateUserCase updateUserCase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        return new UpdateUserService(userRepository, passwordEncoder);
-    }
 }
-

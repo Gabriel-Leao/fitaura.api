@@ -2,18 +2,17 @@ package br.com.leao.gabriel.fitaura.api.adapters.out.user.persistence;
 
 import br.com.leao.gabriel.fitaura.api.domain.user.model.Role;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
+@Builder
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +24,7 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Setter
     @Column(nullable = false)
     private String password;
 
@@ -39,6 +39,9 @@ public class UserEntity {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Embedded
+    private AddressEntity address;
 
     @PrePersist
     protected void onCreate() {

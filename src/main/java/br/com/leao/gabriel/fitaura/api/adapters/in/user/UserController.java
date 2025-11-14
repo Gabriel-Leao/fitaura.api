@@ -27,14 +27,14 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         var users = getUsersCase.execute();
-        var responseUsers = users.stream().map(UserMapper::toResponse).collect(Collectors.toList());
-        return new ResponseEntity<>(responseUsers, HttpStatus.OK);
+        var responseUsers = users.stream().map(UserMapper::toResponse).toList();
+        return ResponseEntity.ok(responseUsers);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
         var user = getUserCase.execute(id);
-        return new ResponseEntity<>(UserMapper.toResponse(user), HttpStatus.OK);
+        return ResponseEntity.ok(UserMapper.toResponse(user));
     }
 
     @PostMapping()
@@ -42,22 +42,22 @@ public class UserController {
     public ResponseEntity<UserResponse> createUser(@RequestBody UpsertUserRequest userData) {
         var domainUser = UserMapper.toDomain(userData);
         User user = createUserCase.execute(domainUser);
-        return new ResponseEntity<>(UserMapper.toResponse(user), HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toResponse(user));
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<UserResponse> updateUserById(@PathVariable Long id, @RequestBody UpsertUserRequest userData) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody UpsertUserRequest userData) {
         var domainUser = UserMapper.toDomain(userData);
         User user = updateUserCase.execute(id, domainUser);
-        return new ResponseEntity<>(UserMapper.toResponse(user), HttpStatus.OK);
+        return ResponseEntity.ok(UserMapper.toResponse(user));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteUserCase.execute(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 }
 

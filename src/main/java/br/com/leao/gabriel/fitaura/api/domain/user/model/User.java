@@ -1,23 +1,27 @@
 package br.com.leao.gabriel.fitaura.api.domain.user.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
+@Builder
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     private Long id;
     private String name;
     private String email;
+    @Setter
     private String password;
     private LocalDate birthday;
     private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Address address;
 
     public void setBirthday(LocalDate birthday) {
         if (birthday.isAfter(LocalDate.now())) {

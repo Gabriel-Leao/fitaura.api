@@ -3,16 +3,12 @@ package br.com.leao.gabriel.fitaura.api.adapters.in.user.dto;
 import br.com.leao.gabriel.fitaura.api.adapters.in.user.validation.birthday.ValidateBirthday;
 import br.com.leao.gabriel.fitaura.api.adapters.in.validation.enums.ValidateEnum;
 import br.com.leao.gabriel.fitaura.api.domain.user.model.Role;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
+import jakarta.validation.constraints.*;
 
 public record UpsertUserRequest (
         @NotNull(message = "Name is required")
         @NotBlank(message = "Name can't be empty")
-        @Size(min = 3, max = 150, message = "O nome deve ter entre 2 e 150 caracteres")
+        @Size(min = 3, max = 150, message = "name must have between 3 and 150 characters")
         String name,
 
         @NotNull(message = "Email is required")
@@ -33,5 +29,14 @@ public record UpsertUserRequest (
 
         @NotBlank(message = "Role can't be empty")
         @ValidateEnum(enumClass = Role.class, message = "Invalid role value")
-        String role
+        String role,
+
+        @NotNull(message = "zipCode is required")
+        @NotBlank(message = "zipCode can't be empty")
+        @Pattern(regexp = "\\d{8}", message = "Zip code must have 8 numbers")
+        String zipCode,
+
+        @NotNull(message = "Number is required")
+        @NotBlank(message = "Number can't be empty")
+        String number
 ) {}
